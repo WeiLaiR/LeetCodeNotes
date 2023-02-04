@@ -401,3 +401,108 @@ class Solution {
 
 ```
 
+
+
+## [1798. 你能构造出连续值的最大数目](https://leetcode.cn/problems/maximum-number-of-consecutive-values-you-can-make/)
+
+> 贪心题，想了半天没想上来
+
+
+
+```JAVA
+/* 
+    执行用时: 17 ms
+    内存消耗: 49.4 MB
+*/
+class Solution {
+    public int getMaximumConsecutive(int[] coins) {
+        int m = 0; // 一开始只能构造出 0
+        Arrays.sort(coins);
+        for (int c : coins) {
+            if (c > m + 1) // coins 已排序，后面没有比 c 更小的数了
+                break; // 无法构造出 m+1，继续循环没有意义
+            m += c; // 可以构造出区间 [0,m+c] 中的所有整数
+        }
+        return m + 1; // [0,m] 中一共有 m+1 个整数
+    }
+}
+```
+
+
+
+## [359. 日志速率限制器](https://leetcode.cn/problems/logger-rate-limiter/)
+
+
+
+
+
+```JAVA
+/* 
+    执行用时: 28 ms
+    内存消耗: 49.6 MB
+*/
+class Logger {
+
+    Map<String, Integer> map;
+
+    public Logger() {
+        map = new HashMap<>();
+    }
+    
+    public boolean shouldPrintMessage(int timestamp, String message) {
+        int val = map.getOrDefault(message, -20);
+        if (timestamp - val >= 10) {
+            map.put(message, timestamp);
+            return true;
+        }
+        return false;
+    }
+}
+
+/**
+ * Your Logger object will be instantiated and called as such:
+ * Logger obj = new Logger();
+ * boolean param_1 = obj.shouldPrintMessage(timestamp,message);
+ */
+```
+
+
+
+## [346. 数据流中的移动平均值](https://leetcode.cn/problems/moving-average-from-data-stream/)
+
+
+
+```JAVA
+/* 
+    执行用时： 36 ms , 在所有 Java 提交中击败了 95.58% 的用户
+    内存消耗： 45.5 MB , 在所有 Java 提交中击败了 75.14% 的用户
+    通过测试用例： 11 / 11
+*/
+class MovingAverage {
+    Queue<Integer> queue = null;
+    int len = 0;
+    double sum = 0;
+
+    public MovingAverage(int size) {
+        len = size;
+        queue = new LinkedList<>();
+    }
+    
+    public double next(int val) {
+        queue.add(val);
+        sum += val;
+        if (queue.size() > len) {
+            sum -= queue.poll();
+        }
+        
+        return  sum / queue.size();
+    }
+}
+
+/**
+ * Your MovingAverage object will be instantiated and called as such:
+ * MovingAverage obj = new MovingAverage(size);
+ * double param_1 = obj.next(val);
+ */
+```
+
