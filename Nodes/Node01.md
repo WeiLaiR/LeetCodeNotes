@@ -571,3 +571,110 @@ class Solution {
 }
 ```
 
+
+
+## [2331. 计算布尔二叉树的值](https://leetcode.cn/problems/evaluate-boolean-binary-tree/)
+
+
+
+```JAVA
+/* 
+    执行用时： 0 ms , 在所有 Java 提交中击败了 100.00% 的用户
+    内存消耗： 41.4 MB , 在所有 Java 提交中击败了 70.42% 的用户
+    通过测试用例： 75 / 75
+*/
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    public boolean evaluateTree(TreeNode root) {
+        return dfs(root);
+    }
+
+    boolean dfs(TreeNode node) {
+        if (node.val == 0) {
+            return false;
+        }else if (node.val == 1) {
+            return true;
+        }else if (node.val == 2) {
+            return dfs(node.left) | dfs(node.right);
+        }else {
+            return dfs(node.left) & dfs(node.right);
+        }
+    }
+}
+```
+
+
+
+## [832. 翻转图像](https://leetcode.cn/problems/flipping-an-image/)
+
+
+
+```JAVA
+/* 
+    执行用时： 0 ms , 在所有 Java 提交中击败了 100.00% 的用户
+    内存消耗： 41.9 MB , 在所有 Java 提交中击败了 16.09% 的用户
+    通过测试用例： 82 / 82
+*/
+class Solution {
+    public int[][] flipAndInvertImage(int[][] image) {
+        int[][] arr = new int[image.length][image.length];
+
+        for (int i = 0;i < arr.length;i ++) {
+            for (int j = 0;j < arr.length;j ++) {
+                if (image[i][j] == 1) {
+                    arr[i][arr.length - j - 1] = 0;
+                }else {
+                    arr[i][arr.length - j - 1] = 1;
+                }
+            }
+        }
+        return arr;
+    }
+}
+```
+
+
+
+## [1047. 删除字符串中的所有相邻重复项](https://leetcode.cn/problems/remove-all-adjacent-duplicates-in-string/)
+
+
+
+```JAVA
+/* 
+    执行用时： 22 ms , 在所有 Java 提交中击败了 69.66% 的用户
+    内存消耗： 42.1 MB , 在所有 Java 提交中击败了 61.85% 的用户
+    通过测试用例： 106 / 106
+*/
+class Solution {
+    public String removeDuplicates(String s) {
+        StringBuffer sb = new StringBuffer();
+        int top = -1;
+        for (int i = 0; i < s.length(); ++i) {
+            char ch = s.charAt(i);
+            if (top >= 0 && sb.charAt(top) == ch) {
+                sb.deleteCharAt(top);
+                --top;
+            } else {
+                sb.append(ch);
+                ++top;
+            }
+        }
+        return sb.toString();
+    }
+}
+```
+
