@@ -678,3 +678,49 @@ class Solution {
 }
 ```
 
+
+
+## [1604. 警告一小时内使用相同员工卡大于等于三次的人](https://leetcode.cn/problems/alert-using-same-key-card-three-or-more-times-in-a-one-hour-period/)
+
+
+
+```JAVA
+/* 
+    执行用时： 42 ms , 在所有 Java 提交中击败了 97.92% 的用户
+    内存消耗： 59.7 MB , 在所有 Java 提交中击败了 77.91% 的用户
+    通过测试用例： 77 / 77
+*/
+class Solution {
+    public List<String> alertNames(String[] keyName, String[] keyTime) {
+        Map<String, List<Integer>> timeMap = new HashMap<String, List<Integer>>();
+        int n = keyName.length;
+        for (int i = 0; i < n; i++) {
+            String name = keyName[i];
+            String time = keyTime[i];
+            timeMap.putIfAbsent(name, new ArrayList<Integer>());
+            int hour = (time.charAt(0) - '0') * 10 + (time.charAt(1) - '0');
+            int minute = (time.charAt(3) - '0') * 10 + (time.charAt(4) - '0');
+            timeMap.get(name).add(hour * 60 + minute);
+        }
+        List<String> res = new ArrayList<String>();
+        Set<String> keySet = timeMap.keySet();
+        for (String name : keySet) {
+            List<Integer> list = timeMap.get(name);
+            Collections.sort(list);
+            int size = list.size();
+            for (int i = 2; i < size; i++) {
+                int time1 = list.get(i - 2), time2 = list.get(i);
+                int difference = time2 - time1;
+                if (difference <= 60) {
+                    res.add(name);
+                    break;
+                }
+            }
+        }
+        Collections.sort(res);
+        return res;
+    }
+}
+
+```
+
