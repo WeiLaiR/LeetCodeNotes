@@ -724,3 +724,29 @@ class Solution {
 
 ```
 
+
+
+## [1233. 删除子文件夹](https://leetcode.cn/problems/remove-sub-folders-from-the-filesystem/)
+
+
+
+```JAVA
+/* 
+    执行用时： 52 ms , 在所有 Java 提交中击败了 53.85% 的用户
+    内存消耗： 50.2 MB , 在所有 Java 提交中击败了 88.17% 的用户
+    通过测试用例： 32 / 32
+*/
+public class Solution {
+    public List<String> removeSubfolders(String[] folder) {
+        Arrays.sort(folder);
+        List<String> result = new ArrayList<>();
+        result.add(folder[0]);
+        for (int i = 1; i < folder.length; i++) {
+            StringBuilder sb = new StringBuilder(result.get(result.size() - 1)).append("/");
+            if (!folder[i].startsWith(sb.toString())) result.add(folder[i]);
+        }
+        return result;
+    }
+}
+```
+
