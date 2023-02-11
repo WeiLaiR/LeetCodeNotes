@@ -854,3 +854,28 @@ class Solution {
 }
 ```
 
+
+
+
+
+## [2335. 装满杯子需要的最短总时长](https://leetcode.cn/problems/minimum-amount-of-time-to-fill-cups/)
+
+
+
+```JAVA
+/* 
+    执行用时： 1 ms , 在所有 Java 提交中击败了 77.90% 的用户
+    内存消耗： 39.6 MB , 在所有 Java 提交中击败了 7.25% 的用户
+    通过测试用例： 280 / 280
+*/
+class Solution {
+    public int fillCups(int[] amount) {
+        Arrays.sort(amount);
+        if (amount[0] + amount[1] <= amount[2]) {
+            return amount[2];
+        }
+        return (amount[0] + amount[1] + amount[2] + 1) / 2;
+    }
+}
+```
+
