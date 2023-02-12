@@ -879,3 +879,32 @@ class Solution {
 }
 ```
 
+
+
+## [1138. 字母板上的路径](https://leetcode.cn/problems/alphabet-board-path/)
+
+
+
+```JAVA
+/* 
+    执行用时： 1 ms , 在所有 Java 提交中击败了 54.76% 的用户
+    内存消耗： 39.6 MB , 在所有 Java 提交中击败了 48.81% 的用户
+    通过测试用例： 61 / 61
+*/
+class Solution {
+    public String alphabetBoardPath(String target) {
+        var ans = new StringBuilder();
+        int x = 0, y = 0;
+        for (var c : target.toCharArray()) {
+            int nx = (c - 'a') / 5, ny = (c - 'a') % 5; // 目标位置
+            var v = nx < x ? "U".repeat(x - nx) : "D".repeat(nx - x); // 竖直
+            var h = ny < y ? "L".repeat(y - ny) : "R".repeat(ny - y); // 水平
+            ans.append(c != 'z' ? v + h : h + v).append('!');
+            x = nx;
+            y = ny;
+        }
+        return ans.toString();
+    }
+}
+```
+
