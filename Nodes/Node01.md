@@ -941,3 +941,33 @@ class Solution {
 }
 ```
 
+
+
+## [1124. 表现良好的最长时间段](https://leetcode.cn/problems/longest-well-performing-interval/)
+
+
+
+```JAVA
+/* 
+    执行用时： 6 ms , 在所有 Java 提交中击败了 92.00% 的用户
+    内存消耗： 41.8 MB , 在所有 Java 提交中击败了 78.75% 的用户
+    通过测试用例： 98 / 98
+*/
+class Solution {
+    public int longestWPI(int[] hours) {
+        int n = hours.length, ans = 0;
+        var s = new int[n + 1]; // 前缀和
+        var st = new ArrayDeque<Integer>();
+        st.push(0); // s[0]
+        for (int j = 1; j <= n; ++j) {
+            s[j] = s[j - 1] + (hours[j - 1] > 8 ? 1 : -1);
+            if (s[j] < s[st.peek()]) st.push(j); // 感兴趣的 j
+        }
+        for (int i = n; i > 0; --i)
+            while (!st.isEmpty() && s[i] > s[st.peek()])
+                ans = Math.max(ans, i - st.pop()); // [栈顶,i) 可能是最长子数组
+        return ans;
+    }
+}
+```
+
