@@ -971,3 +971,32 @@ class Solution {
 }
 ```
 
+
+
+## [1250. 检查「好数组」](https://leetcode.cn/problems/check-if-it-is-a-good-array/)
+
+> 数据范围过大，硬想也没用什么好的思路。实际是应用了裴蜀定理，在这个题之前我感觉我并没有听说过这个定理。
+
+
+
+```JAVA
+/* 
+    执行用时： 2 ms , 在所有 Java 提交中击败了 100.00% 的用户
+    内存消耗： 50.4 MB , 在所有 Java 提交中击败了 49.29% 的用户
+    通过测试用例： 47 / 47
+*/
+class Solution {
+    public boolean isGoodArray(int[] nums) {
+        int g = 0;
+        for (int x : nums) {
+            g = gcd(x, g);
+        }
+        return g == 1;
+    }
+
+    private int gcd(int a, int b) {
+        return b == 0 ? a : gcd(b, a % b);
+    }
+}
+```
+
