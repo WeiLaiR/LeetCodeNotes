@@ -1000,3 +1000,30 @@ class Solution {
 }
 ```
 
+
+
+## [2341. 数组能形成多少数对](https://leetcode.cn/problems/maximum-number-of-pairs-in-array/)
+
+
+
+```JAVA
+/* 
+    执行用时： 1 ms , 在所有 Java 提交中击败了 54.00% 的用户
+    内存消耗： 40.2 MB , 在所有 Java 提交中击败了 55.20% 的用户
+    通过测试用例： 128 / 128
+*/
+class Solution {
+    public int[] numberOfPairs(int[] nums) {
+        Map<Integer, Boolean> cnt = new HashMap<Integer, Boolean>();
+        int res = 0;
+        for (int num : nums) {
+            cnt.put(num, !cnt.getOrDefault(num, false));
+            if (!cnt.get(num)) {
+                res++;
+            }
+        }
+        return new int[]{res, nums.length - 2 * res};
+    }
+}
+```
+
