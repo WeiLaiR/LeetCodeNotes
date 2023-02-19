@@ -1027,3 +1027,122 @@ class Solution {
 }
 ```
 
+
+
+## [1139. 最大的以 1 为边界的正方形](https://leetcode.cn/problems/largest-1-bordered-square/)
+
+
+
+```JAVA
+/* 
+    执行用时： 5 ms , 在所有 Java 提交中击败了 79.44% 的用户
+    内存消耗： 42.8 MB , 在所有 Java 提交中击败了 9.86% 的用户
+    通过测试用例： 84 / 84
+*/
+class Solution {
+    public int largest1BorderedSquare(int[][] grid) {
+        int m = grid.length, n = grid[0].length;
+        int[][] left = new int[m + 1][n + 1];
+        int[][] up = new int[m + 1][n + 1];
+        int maxBorder = 0;
+        for (int i = 1; i <= m; i++) {
+            for (int j = 1; j <= n; j++) {
+                if (grid[i - 1][j - 1] == 1) {
+                    left[i][j] = left[i][j - 1] + 1;
+                    up[i][j] = up[i - 1][j] + 1;
+                    int border = Math.min(left[i][j], up[i][j]);
+                    while (left[i - border + 1][j] < border || up[i][j - border + 1] < border) {
+                        border--;
+                    }
+                    maxBorder = Math.max(maxBorder, border);
+                }
+            }
+        }
+        return maxBorder * maxBorder;
+    }
+}
+```
+
+
+
+
+
+## [1237. 找出给定方程的正整数解](https://leetcode.cn/problems/find-positive-integer-solution-for-a-given-equation/)
+
+
+
+```JAVA
+/* 
+    执行用时： 135 ms , 在所有 Java 提交中击败了 12.94% 的用户
+    内存消耗： 39.5 MB , 在所有 Java 提交中击败了 32.89% 的用户
+    通过测试用例： 45 / 45
+*/
+/*
+ * // This is the custom function interface.
+ * // You should not implement it, or speculate about its implementation
+ * class CustomFunction {
+ *     // Returns f(x, y) for any given positive integers x and y.
+ *     // Note that f(x, y) is increasing with respect to both x and y.
+ *     // i.e. f(x, y) < f(x + 1, y), f(x, y) < f(x, y + 1)
+ *     public int f(int x, int y);
+ * };
+ */
+
+class Solution {
+    public List<List<Integer>> findSolution(CustomFunction customfunction, int z) {
+        List<List<Integer>> res = new ArrayList<List<Integer>>();
+        for (int x = 1; x <= 1000; x++) {
+            for (int y = 1; y <= 1000; y++) {
+                if (customfunction.f(x, y) == z) {
+                    List<Integer> pair = new ArrayList<Integer>();
+                    pair.add(x);
+                    pair.add(y);
+                    res.add(pair);
+                }
+            }
+        }
+        return res;
+    }
+}
+```
+
+
+
+
+
+## [1792. 最大平均通过率](https://leetcode.cn/problems/maximum-average-pass-ratio/)
+
+
+
+```JAVA
+/* 
+    执行用时： 486 ms , 在所有 Java 提交中击败了 64.00% 的用户
+    内存消耗： 98.4 MB , 在所有 Java 提交中击败了 42.67% 的用户
+    通过测试用例： 87 / 87
+*/
+class Solution {
+    public double maxAverageRatio(int[][] classes, int extraStudents) {
+        PriorityQueue<double[]> pq = new PriorityQueue<>((a, b) -> {
+            double x = (a[0] + 1) / (a[1] + 1) - a[0] / a[1];
+            double y = (b[0] + 1) / (b[1] + 1) - b[0] / b[1];
+            return Double.compare(y, x);
+        });
+        for (var e : classes) {
+            pq.offer(new double[] {e[0], e[1]});
+        }
+        while (extraStudents-- > 0) {
+            var e = pq.poll();
+            double a = e[0] + 1, b = e[1] + 1;
+            pq.offer(new double[] {a, b});
+        }
+        double ans = 0;
+        while (!pq.isEmpty()) {
+            var e = pq.poll();
+            ans += e[0] / e[1];
+        }
+        return ans / classes.length;
+    }
+}
+
+```
+
