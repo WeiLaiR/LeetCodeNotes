@@ -1146,3 +1146,37 @@ class Solution {
 
 ```
 
+
+
+## [2347. 最好的扑克手牌](https://leetcode.cn/problems/best-poker-hand/)
+
+
+
+```JAVA
+/* 
+    执行用时： 0 ms , 在所有 Java 提交中击败了 100.00% 的用户
+    内存消耗： 39.2 MB , 在所有 Java 提交中击败了 43.37% 的用户
+    通过测试用例： 98 / 98
+*/
+class Solution {
+    public String bestHand(int[] ranks, char[] suits) {
+        boolean flush = true;
+        for (int i = 1; i < 5 && flush; ++i) {
+            flush = suits[i] == suits[i - 1];
+        }
+        if (flush) {
+            return "Flush";
+        }
+        int[] cnt = new int[14];
+        boolean pair = false;
+        for (int x : ranks) {
+            if (++cnt[x] == 3) {
+                return "Three of a Kind";
+            }
+            pair = pair || cnt[x] == 2;
+        }
+        return pair ? "Pair" : "High Card";
+    }
+}
+```
+
