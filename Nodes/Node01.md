@@ -1219,3 +1219,199 @@ class Solution {
 
 ```
 
+
+
+## [2168. 每个数字的频率都相同的独特子字符串的数量](https://leetcode.cn/problems/unique-substrings-with-equal-digit-frequency/)
+
+
+
+```JAVA
+/* 
+    执行用时： 383 ms , 在所有 Java 提交中击败了 64.71% 的用户
+    内存消耗： 43.5 MB , 在所有 Java 提交中击败了 29.41% 的用户
+    通过测试用例： 127 / 127
+*/
+class Solution {
+    public int equalDigitFrequency(String s) {
+        Set<String> set = new HashSet<>();
+        char[] chs = s.toCharArray();
+
+        for (int i = 0;i < chs.length;i ++) {
+            int[] arr = new int[10];
+            arr[chs[i] - '0'] ++;
+            set.add(chs[i] + "");
+            for (int j = i + 1;j < chs.length;j ++) {
+                boolean sign = true;
+                arr[chs[j] - '0'] ++;
+                int max = 0;
+                for (int val : arr) {
+                    if (val == 0) {
+                        continue;
+                    }
+                    if (max == 0) {
+                        max = val;
+                    }else {
+                        if (max != val) {
+                            sign = false;
+                            break;
+                        }
+                    }
+                }
+                if (sign) {
+                    set.add(s.substring(i,j + 1));
+                }
+            }
+        }
+        return set.size();
+    }
+}
+
+```
+
+
+
+## [1096. 花括号展开 II](https://leetcode.cn/problems/brace-expansion-ii/)
+
+
+
+```JAVA
+/* 
+    执行用时： 8 ms , 在所有 Java 提交中击败了 80.95% 的用户
+    内存消耗： 42.3 MB , 在所有 Java 提交中击败了 41.27% 的用户
+    通过测试用例： 115 / 115
+*/
+class Solution {
+    String expression;
+    int idx;
+
+    public List<String> braceExpansionII(String expression) {
+        this.expression = expression;
+        this.idx = 0;
+        Set<String> ret = expr();
+        return new ArrayList<String>(ret);
+    }
+
+    // item . letter | { expr }
+    private Set<String> item() {
+        Set<String> ret = new TreeSet<String>();
+        if (expression.charAt(idx) == '{') {
+            idx++;
+            ret = expr();
+        } else {
+            StringBuilder sb = new StringBuilder();
+            sb.append(expression.charAt(idx));
+            ret.add(sb.toString());
+        }
+        idx++;
+        return ret;
+    }
+
+    // term . item | item term
+    private Set<String> term() {
+        // 初始化空集合，与之后的求解结果求笛卡尔积
+        Set<String> ret = new TreeSet<String>() {{
+            add("");
+        }};
+        // item 的开头是 { 或小写字母，只有符合时才继续匹配
+        while (idx < expression.length() && (expression.charAt(idx) == '{' || Character.isLetter(expression.charAt(idx)))) {
+            Set<String> sub = item();
+            Set<String> tmp = new TreeSet<String>();
+            for (String left : ret) {
+                for (String right : sub) {
+                    tmp.add(left + right);
+                }
+            }
+            ret = tmp;
+        }
+        return ret;
+    }
+
+    // expr . term | term, expr
+    private Set<String> expr() {
+        Set<String> ret = new TreeSet<String>();
+        while (true) {
+            // 与 term() 求解结果求并集
+            ret.addAll(term());
+            // 如果匹配到逗号则继续，否则结束匹配
+            if (idx < expression.length() && expression.charAt(idx) == ',') {
+                idx++;
+                continue;
+            } else {
+                break;
+            }
+        }
+        return ret;
+    }
+}
+```
+
+
+
+## [314. 二叉树的垂直遍历](https://leetcode.cn/problems/binary-tree-vertical-order-traversal/)
+
+
+
+```JAVA
+/* 
+    执行用时： 2 ms , 在所有 Java 提交中击败了 85.43% 的用户
+    内存消耗： 41.9 MB , 在所有 Java 提交中击败了 44.94% 的用户
+    通过测试用例： 214 / 214
+*/
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+        public List<List<Integer>> verticalOrder(TreeNode root) {
+        List<List<Integer>> result = new LinkedList<>();
+        if(root == null) return result;
+        // 层序遍历的结点队列
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+        // 结点对应的位置队列
+        Queue<Integer> posQueue = new LinkedList<>();
+        posQueue.offer(0);
+        // key : position | value: node.val list
+        HashMap<Integer, List<Integer>> map = new HashMap<>();
+        // 最左侧的位置
+        int minPos = Integer.MAX_VALUE;
+
+        while(!queue.isEmpty()){
+            TreeNode node = queue.poll();
+            int pos = posQueue.poll();
+            List<Integer> list = map.getOrDefault(pos, new LinkedList<>());
+            list.add(node.val);
+            map.put(pos, list);
+
+            if(node.left != null){
+                queue.offer(node.left);
+                posQueue.offer(pos - 1);
+            }
+            if(node.right != null){
+                queue.offer(node.right);
+                posQueue.offer(pos + 1);
+            }
+            minPos = Math.min(minPos, pos);//维护最左侧位置
+        }
+
+        for(int i = minPos; i < minPos + map.size(); i++){
+            result.add(map.get(i));
+        }
+        return result;
+    }
+}
+```
+
+
+
