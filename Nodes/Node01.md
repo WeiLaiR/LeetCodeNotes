@@ -1415,3 +1415,35 @@ class Solution {
 
 
 
+## [剑指 Offer 47. 礼物的最大价值](https://leetcode.cn/problems/li-wu-de-zui-da-jie-zhi-lcof/)
+
+
+
+```JAVA
+/* 
+    执行用时： 4 ms , 在所有 Java 提交中击败了 3.89% 的用户
+    内存消耗： 44.3 MB , 在所有 Java 提交中击败了 13.67% 的用户
+    通过测试用例： 61 / 61
+*/
+class Solution {
+    public int maxValue(int[][] grid) {
+        int m = grid.length, n = grid[0].length;
+        int[][] f = new int[2][n];
+        for (int i = 0; i < m; ++i) {
+            int pos = i % 2;
+            for (int j = 0; j < n; ++j) {
+                f[pos][j] = 0;
+                if (i > 0) {
+                    f[pos][j] = Math.max(f[pos][j], f[1 - pos][j]);
+                }
+                if (j > 0) {
+                    f[pos][j] = Math.max(f[pos][j], f[pos][j - 1]);
+                }
+                f[pos][j] += grid[i][j];
+            }
+        }
+        return f[(m - 1) % 2][n - 1];
+    }
+}
+```
+
