@@ -1447,3 +1447,75 @@ class Solution {
 }
 ```
 
+
+
+
+
+## [1365. 有多少小于当前数字的数字](https://leetcode.cn/problems/how-many-numbers-are-smaller-than-the-current-number/)
+
+
+
+```JAVA
+/* 
+    执行用时： 1 ms , 在所有 Java 提交中击败了 98.79% 的用户
+    内存消耗： 41.8 MB , 在所有 Java 提交中击败了 37.55% 的用户
+    通过测试用例： 103 / 103
+*/
+class Solution {
+    public int[] smallerNumbersThanCurrent(int[] nums) {
+        int[] cnt = new int[101];
+        int n = nums.length;
+        for (int i = 0; i < n; i++) {
+            cnt[nums[i]]++;
+        }
+        for (int i = 1; i <= 100; i++) {
+            cnt[i] += cnt[i - 1];
+        }
+        int[] ret = new int[n];
+        for (int i = 0; i < n; i++) {
+            ret[i] = nums[i] == 0 ? 0 : cnt[nums[i] - 1];
+        }
+        return ret;
+    }
+}
+```
+
+
+
+
+
+## [482. 密钥格式化](https://leetcode.cn/problems/license-key-formatting/)
+
+
+
+```JAVA
+/* 
+    执行用时： 9 ms , 在所有 Java 提交中击败了 87.96% 的用户
+    内存消耗： 41.2 MB , 在所有 Java 提交中击败了 88.09% 的用户
+    通过测试用例： 38 / 38
+*/
+class Solution {
+    public String licenseKeyFormatting(String s, int k) {
+        StringBuilder ans = new StringBuilder();
+        int cnt = 0;
+
+        for (int i = s.length() - 1; i >= 0; i--) {
+            if (s.charAt(i) != '-') {
+                cnt++;
+                ans.append(Character.toUpperCase(s.charAt(i)));
+                if (cnt % k == 0) {
+                    ans.append("-");
+                }
+            }
+        }
+        if (ans.length() > 0 && ans.charAt(ans.length() - 1) == '-') {
+            ans.deleteCharAt(ans.length() - 1);
+        }
+        
+        return ans.reverse().toString();
+    }
+}
+```
+
+
+
