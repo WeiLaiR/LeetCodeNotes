@@ -1582,3 +1582,35 @@ class Solution {
 
 
 
+## [2383. 赢得比赛需要的最少训练时长](https://leetcode.cn/problems/minimum-hours-of-training-to-win-a-competition/)
+
+
+
+```JAVA
+/* 
+    执行用时： 0 ms , 在所有 Java 提交中击败了 100.00% 的用户
+    内存消耗： 41.1 MB , 在所有 Java 提交中击败了 31.14% 的用户
+    通过测试用例： 111 / 111
+*/
+class Solution {
+    public int minNumberOfHours(int initialEnergy, int initialExperience, int[] energy, int[] experience) {
+        int s = 0;
+        for (int x : energy) {
+            s += x;
+        }
+        int ans = Math.max(0, s - initialEnergy + 1);
+        for (int x : experience) {
+            if (initialExperience <= x) {
+                ans += x - initialExperience + 1;
+                initialExperience = x + 1;
+            }
+            initialExperience += x;
+        }
+        return ans;
+    }
+}
+
+```
+
+
+
