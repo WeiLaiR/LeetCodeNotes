@@ -1614,3 +1614,38 @@ class Solution {
 
 
 
+## [1605. 给定行和列的和求可行矩阵](https://leetcode.cn/problems/find-valid-matrix-given-row-and-column-sums/)
+
+
+
+```JAVA
+/* 
+    执行用时： 1 ms , 在所有 Java 提交中击败了 100.00% 的用户
+    内存消耗： 49.7 MB , 在所有 Java 提交中击败了 9.16% 的用户
+    通过测试用例： 84 / 84
+*/
+class Solution {
+    public int[][] restoreMatrix(int[] rowSum, int[] colSum) {
+        int n = rowSum.length, m = colSum.length;
+        int[][] matrix = new int[n][m];
+        int i = 0, j = 0;
+        while (i < n && j < m) {
+            int v = Math.min(rowSum[i], colSum[j]);
+            matrix[i][j] = v;
+            rowSum[i] -= v;
+            colSum[j] -= v;
+            if (rowSum[i] == 0) {
+                ++i;
+            }
+            if (colSum[j] == 0) {
+                ++j;
+            }
+        }
+        return matrix;
+    }
+}
+
+```
+
+
+
